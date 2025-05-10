@@ -95,6 +95,10 @@ int main(void)
   MX_QUADSPI_Init();
   /* USER CODE BEGIN 2 */
 
+  extern int user_main(void* args);
+
+  user_main(NULL);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -102,8 +106,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    extern int user_main(void* args);
-    user_main(NULL); // Call the user main function
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

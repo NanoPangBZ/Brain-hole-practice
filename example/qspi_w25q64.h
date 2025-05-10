@@ -81,7 +81,7 @@ int8_t 	QSPI_W25Qxx_MemoryMappedMode(void);		// 进入内存映射模式
 int8_t 	QSPI_W25Qxx_SectorErase(uint32_t SectorAddress);		// 扇区擦除，4K字节， 参考擦除时间 45ms
 int8_t 	QSPI_W25Qxx_BlockErase_32K (uint32_t SectorAddress);	// 块擦除，  32K字节，参考擦除时间 120ms
 int8_t 	QSPI_W25Qxx_BlockErase_64K (uint32_t SectorAddress);	// 块擦除，  64K字节，参考擦除时间 150ms，实际使用建议使用64K擦除，擦除的时间最快
-int8_t 	QSPI_W25Qxx_ChipErase (void);                         // 整片擦除，参考擦除时间 20S
+int8_t 	QSPI_W25Qxx_ChipErase (void);                           // 整片擦除，参考擦除时间 20S
 
 int8_t	QSPI_W25Qxx_WritePage(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t NumByteToWrite);	// 按页写入，最大256字节
 int8_t	QSPI_W25Qxx_WriteBuffer(uint8_t* pData, uint32_t WriteAddr, uint32_t Size);				// 写入数据，最大不能超过flash芯片的大小

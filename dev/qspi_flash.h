@@ -6,13 +6,13 @@
 extern "C"{
 #endif  //__cplusplus
 
-#define QSPI_W25Qxx_OK           		0		// W25Qxx通信正常
-#define W25Qxx_ERROR_INIT         		-1		// 初始化错误
-#define W25Qxx_ERROR_WriteEnable        -2		// 写使能错误
-#define W25Qxx_ERROR_AUTOPOLLING        -3		// 轮询等待错误，无响应
-#define W25Qxx_ERROR_Erase         		-4		// 擦除错误
-#define W25Qxx_ERROR_TRANSMIT         	-5		// 传输错误
-#define W25Qxx_ERROR_MemoryMapped		-6      // 内存映射模式错误
+#define QSPI_FLASH_ERR_TYPE             int8_t
+#define QSPI_FLASH_OK                   0
+#define QSPI_FLASH_ERR                  -1
+#define QSPI_FLASH_TIMEOUT              -2
+#define QSPI_FLASH_TRANSMIT_ERR         -3
+#define QSPI_FLASH_WRITE_ENABLE_ERR     -4
+#define QSPI_FLASH_ERASE_ERR            -5
 
 #define W25Qxx_CMD_EnableReset  	0x66		// 使能复位
 #define W25Qxx_CMD_ResetDevice   	0x99		// 复位器件
@@ -37,10 +37,28 @@ extern "C"{
 #define W25Qxx_ChipErase_TIMEOUT_MAX		100000U		// 超时等待时间，W25Q64整片擦除所需最大时间是100S
 #define W25Qxx_Mem_Addr						0x90000000 	// 内存映射模式的地址
 
-int8_t qspi_flash_init(void);
-int8_t qpsi_flash_reset(void);
+#ifndef QSPI_FLASH_ERR_TYPE
+    #define QSPI_FLASH_ERR_TYPE int
+#endif  //QSPI_FLASH_ERR_TYPE
+
+typedef QSPI_FLASH_ERR_TYPE qspi_flash_err_t;
+
+qspi_flash_err_t qspi_flash_init(void);
+qspi_flash_err_t qpsi_flash_reset(void);
 uint32_t qspi_flash_read_id(void);
-int8_t qspi_flash_auto_polling_mem_ready(void);
+qspi_flash_err_t qspi_flash_check(void);
+
+qspi_flash_err_t qspi_flash_auto_polling_mem_ready(void);
+qspi_flash_err_t qspi_flash_enter_mem_map_mode(void);
+qspi_flash_err_t qspi_flash_exit_mem_map_mode(void);
+
+qspi_flash_err_t qspi_flash_erase_chip(void);
+qspi_flash_err_t qspi_flash_erase(uint32_t addr,uint32_t len);
+qspi_flash_err_t qspi_flash_programe(uint32_t addr , uint8_t* data_buf , uint32_t len);
+
+qspi_flash_err_t qspi_flash_read(uint32_t addr , uint8_t* data_buf , uint32_t len);
+qspi_flash_err_t qspi_flash_write(uint32_t addr , uint8_t* data_buf , uint32_t len);
+
 
 #ifdef __cplusplus
 }
