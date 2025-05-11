@@ -16,7 +16,7 @@ extern "C"{
 
 #define W25Qxx_CMD_EnableReset  	0x66		// 使能复位
 #define W25Qxx_CMD_ResetDevice   	0x99		// 复位器件
-#define W25Qxx_CMD_JedecID 			0x9F		// JEDEC ID  
+#define W25Qxx_CMD_JedecID 			0x9F		// JEDEC ID
 #define W25Qxx_CMD_WriteEnable		0X06		// 写使能
 
 #define W25Qxx_CMD_SectorErase 		0x20		// 扇区擦除，4K字节， 参考擦除时间 45ms
@@ -24,7 +24,7 @@ extern "C"{
 #define W25Qxx_CMD_BlockErase_64K 	0xD8		// 块擦除，  64K字节，参考擦除时间 150ms
 #define W25Qxx_CMD_ChipErase 		0xC7		// 整片擦除，参考擦除时间 20S
 
-#define W25Qxx_CMD_QuadInputPageProgram  	0x32  		// 1-1-4模式下(1线指令1线地址4线数据)，页编程指令，参考写入时间 0.4ms 
+#define W25Qxx_CMD_QuadInputPageProgram  	0x32  		// 1-1-4模式下(1线指令1线地址4线数据)，页编程指令，参考写入时间 0.4ms
 #define W25Qxx_CMD_FastReadQuad_IO       	0xEB  		// 1-4-4模式下(1线指令4线地址4线数据)，快速读取指令
 
 #define W25Qxx_CMD_ReadStatus_REG1			0X05		// 读状态寄存器1
@@ -48,7 +48,7 @@ qspi_flash_err_t qpsi_flash_reset(void);
 uint32_t qspi_flash_read_id(void);
 qspi_flash_err_t qspi_flash_check(void);
 
-qspi_flash_err_t qspi_flash_auto_polling_mem_ready(void);
+qspi_flash_err_t qspi_flash_wait_busy(void);
 qspi_flash_err_t qspi_flash_enter_mem_map_mode(void);
 qspi_flash_err_t qspi_flash_exit_mem_map_mode(void);
 

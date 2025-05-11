@@ -6,7 +6,8 @@
     "STM32H743_HAL_SDK",
     "USER",
     "example",
-    "dev"
+    "dev",
+    "doc"
   ],
   "virtualFolder": {
     "name": "<virtual_root>",

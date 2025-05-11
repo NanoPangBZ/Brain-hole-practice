@@ -72,7 +72,7 @@ static int8_t QSPI_W25Qxx_SectorErase(uint32_t SectorAddress)
 		return QSPI_FLASH_ERASE_ERR;		// 擦除失败
 	}
 	// 使用自动轮询标志位，等待擦除的结束 
-	if (qspi_flash_auto_polling_mem_ready() != QSPI_FLASH_OK)
+	if (qspi_flash_wait_busy() != QSPI_FLASH_OK)
 	{
 		return QSPI_FLASH_TIMEOUT;		// 轮询等待无响应
 	}
@@ -106,7 +106,7 @@ static int8_t QSPI_W25Qxx_BlockErase_32K (uint32_t SectorAddress)
 		return QSPI_FLASH_ERASE_ERR;				// 擦除失败
 	}
 	// 使用自动轮询标志位，等待擦除的结束 
-	if (qspi_flash_auto_polling_mem_ready() != QSPI_FLASH_OK)
+	if (qspi_flash_wait_busy() != QSPI_FLASH_OK)
 	{
 		return QSPI_FLASH_TIMEOUT;		// 轮询等待无响应
 	}
@@ -151,7 +151,7 @@ static int8_t QSPI_W25Qxx_Write_Page(uint32_t addr , uint8_t* data, uint32_t len
 		return QSPI_FLASH_TRANSMIT_ERR;		// 传输数据错误
 	}
 	// 使用自动轮询标志位，等待写入的结束 
-	if (qspi_flash_auto_polling_mem_ready() != QSPI_FLASH_OK)
+	if (qspi_flash_wait_busy() != QSPI_FLASH_OK)
 	{
 		return QSPI_FLASH_TIMEOUT; // 轮询等待无响应
 	}
@@ -185,7 +185,7 @@ static int8_t QSPI_W25Qxx_BlockErase_64K (uint32_t SectorAddress)
 		return QSPI_FLASH_ERASE_ERR;			// 擦除失败
 	}
 	// 使用自动轮询标志位，等待擦除的结束 
-	if (qspi_flash_auto_polling_mem_ready() != QSPI_FLASH_OK)
+	if (qspi_flash_wait_busy() != QSPI_FLASH_OK)
 	{
 		return QSPI_FLASH_TIMEOUT;	// 轮询等待无响应
 	}
@@ -257,7 +257,7 @@ qspi_flash_err_t qpsi_flash_reset(void)
 		return QSPI_FLASH_TRANSMIT_ERR;			// 如果发送失败，返回错误信息
 	}
 	// 使用自动轮询标志位，等待通信结束
-	if (qspi_flash_auto_polling_mem_ready() != QSPI_FLASH_OK)
+	if (qspi_flash_wait_busy() != QSPI_FLASH_OK)
 	{
 		return QSPI_FLASH_TIMEOUT;	// 轮询等待无响应
 	}
@@ -270,7 +270,7 @@ qspi_flash_err_t qpsi_flash_reset(void)
 		return QSPI_FLASH_TRANSMIT_ERR;		  // 如果发送失败，返回错误信息
 	}
 	// 使用自动轮询标志位，等待通信结束
-	if (qspi_flash_auto_polling_mem_ready() != QSPI_FLASH_OK)
+	if (qspi_flash_wait_busy() != QSPI_FLASH_OK)
 	{
 		return QSPI_FLASH_TIMEOUT;	// 轮询等待无响应
 	}	
@@ -326,7 +326,7 @@ qspi_flash_err_t qspi_flash_check(void)
 	}
 }
 
-qspi_flash_err_t qspi_flash_auto_polling_mem_ready(void)
+qspi_flash_err_t qspi_flash_wait_busy(void)
 {
 	QSPI_CommandTypeDef     s_command;	   // QSPI传输配置
 	QSPI_AutoPollingTypeDef s_config;		// 轮询比较相关配置参数
@@ -491,7 +491,7 @@ qspi_flash_err_t qspi_flash_read(uint32_t addr , uint8_t* data_buf , uint32_t le
 	}
 
 	// 使用自动轮询标志位，等待接收的结束 
-	if (qspi_flash_auto_polling_mem_ready() != QSPI_FLASH_OK)
+	if (qspi_flash_wait_busy() != QSPI_FLASH_OK)
 	{
 		return QSPI_FLASH_TIMEOUT; // 轮询等待无响应
 	}
