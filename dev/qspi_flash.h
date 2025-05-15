@@ -51,6 +51,7 @@ qspi_flash_err_t qspi_flash_check(void);
 qspi_flash_err_t qspi_flash_wait_busy(void);
 qspi_flash_err_t qspi_flash_enter_mem_map_mode(void);
 qspi_flash_err_t qspi_flash_exit_mem_map_mode(void);
+uint32_t qspi_flash_mem_map_start_addr(void);
 
 qspi_flash_err_t qspi_flash_erase_chip(void);
 qspi_flash_err_t qspi_flash_erase(uint32_t addr,uint32_t len);

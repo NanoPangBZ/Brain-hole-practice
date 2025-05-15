@@ -362,12 +362,45 @@ qspi_flash_err_t qspi_flash_wait_busy(void)
 
 qspi_flash_err_t qspi_flash_enter_mem_map_mode(void)
 {
+	QSPI_CommandTypeDef      s_command;				 // QSPI传输配置
+	QSPI_MemoryMappedTypeDef s_mem_mapped_cfg;	 // 内存映射访问参数
 
+	s_command.InstructionMode   = QSPI_INSTRUCTION_1_LINE;    		// 1线指令模式
+	s_command.AddressSize       = QSPI_ADDRESS_24_BITS;            // 24位地址
+	s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;  		// 无交替字节 
+	s_command.DdrMode           = QSPI_DDR_MODE_DISABLE;     		// 禁止DDR模式
+	s_command.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY; 		// DDR模式中数据延迟，这里用不到
+	s_command.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;			// 每次传输数据都发送指令	
+	s_command.AddressMode 		 = QSPI_ADDRESS_4_LINES; 				// 4线地址模式
+	s_command.DataMode    		 = QSPI_DATA_4_LINES;    				// 4线数据模式
+	s_command.DummyCycles 		 = 6;                    				// 空周期个数
+	s_command.Instruction 		 = W25Qxx_CMD_FastReadQuad_IO; 		// 1-4-4模式下(1线指令4线地址4线数据)，快速读取指令
+	
+	s_mem_mapped_cfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE; // 禁用超时计数器, nCS 保持激活状态
+	s_mem_mapped_cfg.TimeOutPeriod     = 0;									 // 超时判断周期
+
+	qpsi_flash_reset();		// 复位W25Qxx
+	
+	if (HAL_QSPI_MemoryMapped(&hqspi, &s_command, &s_mem_mapped_cfg) != HAL_OK)	// 进行配置
+	{
+		return QSPI_FLASH_ERR; 	// 设置内存映射模式错误
+	}
+
+	return QSPI_FLASH_OK; // 配置成功
 }
 
 qspi_flash_err_t qspi_flash_exit_mem_map_mode(void)
 {
 
+}
+
+/**
+ * @brief 查询qspi flash的内存映射模式内存起始地址
+ * @return uint32_t qspi flash内存映射起始地址
+*/
+uint32_t qspi_flash_mem_map_start_addr(void)
+{
+	return 0x90000000;
 }
 
 qspi_flash_err_t qspi_flash_erase_chip(void)
