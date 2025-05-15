@@ -9,6 +9,9 @@
 - 串口输出
 - qspi flash读写
 - qspi flash xip执行
+- 针对地址不连续的hex分段打包bin文件的工具
+- 简易mem_heap
+- 使用RAM段和ITCMRAM段(默认不使用)
 - freeRTOS bring up
 - fatFS + SDIO
 - slave-usb
