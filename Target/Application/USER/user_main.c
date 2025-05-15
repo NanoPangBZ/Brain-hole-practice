@@ -22,7 +22,7 @@ static void ok_led_show(void)
     while(1)
     {
         HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // Toggle the state of pin GPIOB_PIN_0
-        HAL_Delay( 600 );
+        HAL_Delay( 100 );
     }
 }
 
@@ -34,6 +34,11 @@ static int qspi_erase_write_test(void)
     for( uint16_t temp = 0 ; temp < 1024 ; temp++ )
     {
         programe_data[ temp ] = temp;
+    }
+
+    for( uint8_t temp = 0 ; temp < 64 ; temp++ )
+    {
+        programe_data[ temp ] = 0x5A;
     }
 
     qspi_flash_erase( 0 , 4 * 1024 );
@@ -51,10 +56,19 @@ static int qspi_erase_write_test(void)
     return 0;
 }
 
+static int qspi_flash_download_test(void)
+{
+    qspi_flash_init();
+    uint8_t read_data[256];
+    qspi_flash_read( 0 , 0 , 256 );
+
+    ok_led_show();
+}
+
 int user_main(void* args)
 {
-    ERR_CHECK( qspi_flash_init() );
-    ERR_CHECK( qspi_erase_write_test() );
+    qspi_flash_init();
+    qspi_flash_enter_mem_map_mode();
 
     ok_led_show();
 

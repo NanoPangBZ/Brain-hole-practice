@@ -18,3 +18,9 @@ options:
     Debug:
         files: {}
         virtualPathFiles: {}
+    Bootloader-Debug:
+        files: {}
+        virtualPathFiles: {}
+    Application:
+        files: {}
+        virtualPathFiles: {}

@@ -4,10 +4,11 @@
   "dependenceList": [],
   "srcDirs": [
     "STM32H743_HAL_SDK",
-    "USER",
     "example",
     "dev",
-    "doc"
+    "doc",
+    "Target",
+    "LinkScript"
   ],
   "virtualFolder": {
     "name": "<virtual_root>",
@@ -21,7 +22,7 @@
     "uid": "1843c30278bbdedecbd22136522047e0"
   },
   "targets": {
-    "Debug": {
+    "Bootloader-Debug": {
       "excludeList": [
         "STM32H743_HAL_SDK/Drivers/CMSIS/Core_A",
         "STM32H743_HAL_SDK/Drivers/CMSIS/docs",
@@ -35,13 +36,15 @@
         "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_timebase_rtc_alarm_template.c",
         "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_timebase_rtc_wakeup_template.c",
         "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_timebase_tim_template.c",
-        "example/qspi_w25q64.c"
+        "example/qspi_w25q64.c",
+        "STM32H743_HAL_SDK/startup_stm32h743xx.s",
+        "Target/Application"
       ],
       "toolchain": "GCC",
       "compileConfig": {
         "cpuType": "Cortex-M7",
         "floatingPointHardware": "none",
-        "scatterFilePath": "STM32H743_HAL_SDK/STM32H743XX_FLASH.ld",
+        "scatterFilePath": "LinkScript\\STM32H743XX_FLASH.ld",
         "useCustomScatterFile": true,
         "storageLayout": {
           "RAM": [],
@@ -49,19 +52,26 @@
         },
         "options": "null"
       },
-      "uploader": "JLink",
+      "uploader": "OpenOCD",
       "uploadConfig": {
         "bin": "",
-        "baseAddr": "",
-        "cpuInfo": {
-          "vendor": "ST",
-          "cpuName": "STM32H743XI"
-        },
-        "proType": 1,
-        "speed": 8000,
-        "otherCmds": ""
+        "target": "stm32h7x",
+        "interface": "jlink_swd_interface",
+        "baseAddr": "0x08000000"
       },
-      "uploadConfigMap": {},
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "ST",
+            "cpuName": "STM32H743XI"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
       "custom_dep": {
         "name": "default",
         "incList": [
@@ -103,6 +113,102 @@
             "remove-unused-input-sections": true,
             "LIB_FLAGS": "-lm",
             "$toolName": "auto"
+          }
+        }
+      }
+    },
+    "Application": {
+      "excludeList": [
+        "STM32H743_HAL_SDK/Drivers/CMSIS/Core_A",
+        "STM32H743_HAL_SDK/Drivers/CMSIS/docs",
+        "STM32H743_HAL_SDK/Drivers/CMSIS/DSP",
+        "STM32H743_HAL_SDK/Drivers/CMSIS/NN",
+        "STM32H743_HAL_SDK/Drivers/CMSIS/RTOS",
+        "STM32H743_HAL_SDK/Drivers/CMSIS/RTOS2",
+        "STM32H743_HAL_SDK/Drivers/CMSIS/Core/Template",
+        "STM32H743_HAL_SDK/Drivers/CMSIS/Device/ST/STM32H7xx/Source/Templates",
+        "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_msp_template.c",
+        "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_timebase_rtc_alarm_template.c",
+        "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_timebase_rtc_wakeup_template.c",
+        "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_timebase_tim_template.c",
+        "example/qspi_w25q64.c",
+        "STM32H743_HAL_SDK/startup_stm32h743xx.s",
+        "Target/Bootloader"
+      ],
+      "toolchain": "GCC",
+      "compileConfig": {
+        "cpuType": "Cortex-M7",
+        "floatingPointHardware": "none",
+        "scatterFilePath": "LinkScript\\STM32H743XX_QSPI_FLASH.ld",
+        "useCustomScatterFile": true,
+        "storageLayout": {
+          "RAM": [],
+          "ROM": []
+        },
+        "options": "null"
+      },
+      "uploader": "OpenOCD",
+      "uploadConfig": {
+        "bin": "",
+        "target": "stm32h7x",
+        "interface": "jlink_swd_interface",
+        "baseAddr": "0x08000000"
+      },
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "ST",
+            "cpuName": "STM32H743XI"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          "STM32H743_HAL_SDK/Core/Inc",
+          "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Inc",
+          "STM32H743_HAL_SDK/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy",
+          "STM32H743_HAL_SDK/Drivers/CMSIS/Include",
+          "STM32H743_HAL_SDK/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
+          "dev"
+        ],
+        "libList": [],
+        "defineList": [
+          "USE_PWR_LDO_SUPPLY",
+          "USE_HAL_DRIVER",
+          "STM32H743xx"
+        ]
+      },
+      "builderOptions": {
+        "GCC": {
+          "version": 5,
+          "beforeBuildTasks": [],
+          "afterBuildTasks": [],
+          "global": {
+            "$float-abi-type": "softfp",
+            "output-debug-info": "dwarf-3",
+            "misc-control": "--specs=nosys.specs --specs=nano.specs"
+          },
+          "c/cpp-compiler": {
+            "language-c": "c11",
+            "language-cpp": "c++11",
+            "optimization": "level-0",
+            "warnings": "all-warnings",
+            "one-elf-section-per-function": true,
+            "one-elf-section-per-data": true
+          },
+          "asm-compiler": {},
+          "linker": {
+            "output-format": "elf",
+            "remove-unused-input-sections": true,
+            "LIB_FLAGS": "-lm",
+            "$toolName": "auto",
+            "$disableOutputTask": true
           }
         }
       }
